@@ -1,4 +1,5 @@
-import {USER_LOADED,USER_LOADING,AUTH_ERROR} from '../actions/types'
+import {USER_LOADED,USER_LOADING,AUTH_ERROR, LOGIN_SUCCESS,LOGIN_FAILED} from '../actions/types'
+import { returnError } from '../actions/messages';
 const initialState={
     token: localStorage.getItem('token'),
     isAuthenticated: null,
@@ -17,7 +18,15 @@ export default function(state=initialState, action){
                 isLoading: false,
                 user: action.payload
             }
+        case LOGIN_SUCCESS:
+            localStorage.setItem('token', action.payload.token);
+            return{
+                ...state,...action.payload,
+                isAuthenticated:true,
+                isLoading: true
+            }
         case AUTH_ERROR:
+        case LOGIN_FAILED:
             localStorage.removeItem('token');
             return {
                 ...state,
@@ -26,6 +35,7 @@ export default function(state=initialState, action){
                 isAuthenticated:false,
                 isLoading: false
             }
+        
         default:
             return state;
     }
