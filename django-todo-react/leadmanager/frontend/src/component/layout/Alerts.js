@@ -17,11 +17,15 @@ export class Alerts extends Component {
             if (error.msg.name) alert.error(`${error.msg.name.join()}`);
             if (error.msg.email) alert.error(`${error.msg.email.join()}`);
             if (error.msg.message) alert.error(`:${error.msg.message.join()}`);
+            if (error.msg.non_field_errors) alert.error(error.msg.non_field_errors.join());
+            if(error.msg.username) alert.error(error.msg.username.join())
         }
 
         if(message !== prevProps.message){
             if (message.leadAdded) alert.success(message.leadAdded);
             if (message.deleteLead) alert.success(message.deleteLead);
+            if(message.passwordNotMatch) alert.error(message.passwordNotMatch);
+            if(message.registerSuccess) alert.success(message.registerSuccess);
         }
     }
     
